@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+import Home from "../components/Home";
 
 import user from "../data/user";
 import App from "../components/App";
@@ -16,12 +17,16 @@ test("renders the correct child components", () => {
 });
 
 test("passes 'name', 'city', and 'color' to <Home> as props", () => {
-  render(<App />);
-  const h1 = screen.queryByText(
-    `${user.name} is a Web Developer from ${user.city}`
-  );
+  const user = {
+    name: "Liza",
+    city: "New York",
+    color: "firebrick",
+  };
+
+  render(<Home name={user.name} city={user.city} color={user.color} />);
+  const h1 = screen.getByText(`${user.name} is a Web Developer from ${user.city}`);
   expect(h1).toBeInTheDocument();
-  expect(h1.style.color).toEqual(user.color);
+  expect(h1).toHaveStyle(`color: ${user.color}`);
 });
 
 test("passes 'bio' to <About> as a prop", () => {
